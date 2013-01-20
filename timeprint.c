@@ -13,7 +13,6 @@ static int timeprint_thread(void *data)
 {
 	while (!kthread_should_stop()) {
 		struct timespec tv;
-
 		tv = current_kernel_time();
 		log("%10ld", (long)tv.tv_sec);
 
@@ -22,7 +21,6 @@ static int timeprint_thread(void *data)
 	}
 
 	log("thread exiting");
-
 	return 0;
 }
 
