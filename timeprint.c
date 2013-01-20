@@ -9,7 +9,7 @@ static struct task_struct *timeprint_task;
 #define log(fmt, ...) \
 	printk(KERN_ALERT "%s: " fmt "\n", THIS_MODULE->name, ## __VA_ARGS__)
 
-static int timeprint_fn(void *data)
+static int timeprint_thread(void *data)
 {
 	while (!kthread_should_stop()) {
 		struct timespec tv;
@@ -30,7 +30,7 @@ static int __init timeprint_init(void)
 {
 	log("init");
 
-	timeprint_task = kthread_run(timeprint_fn, NULL, "timeprint_fn");
+	timeprint_task = kthread_run(timeprint_thread, NULL, "timeprint");
 	if (IS_ERR(timeprint_task)) {
 		log("kthread_run failed");
 		return -1;
